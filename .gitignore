@@ -1,0 +1,11 @@
+# ----------
+# GIT IGNORE
+# ----------
+
+# Ignore Securables in Environment Variables
+# Uncomment for Production Repository
+# **/*.env
+
+# IDE configs
+.idea/
+.vscode/
