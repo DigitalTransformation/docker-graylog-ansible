@@ -59,6 +59,40 @@ services:
           cpus: '2'
           memory: 2G
 
+  # ---------------------------
+  # Graylog::Production
+  # Docs: https://hub.docker.com/r/graylog/graylog/
+  # ---------------------------
+  graylog:
+    image: graylog/graylog:3.3
+    container_name: graylog.server
+    restart: always
+    volumes:
+      - ./gldata/config:/usr/share/graylog/data/config
+    networks:
+      - d1_graylog
+      - default
+    depends_on:
+      - mongodb
+      - elasticsearch
+    ports:
+      # Host:Container
+      # Graylog Web Interface and REST API
+      - 9050:9050
+      # Syslog TCP
+      - 514:514
+      # Syslog UDP
+      - 514:514/udp
+      # GELF TCP
+      - 9051:12201
+      # GELF UDP
+      - 9051:12201/udp
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
 networks:
   d1_graylog:
     driver: bridge
