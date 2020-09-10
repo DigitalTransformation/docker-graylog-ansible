@@ -1,0 +1,35 @@
+# --------------------------------
+# Infra::Docker::Graylog+MongoDB+ElasticSearch
+# Docs: https://docs.graylog.org/en/3.3/pages/installation/docker.html
+# Github: https://github.com/quantoneinc/Log.Analytics.Graylog.Ansible/
+# --------------------------------
+
+version: '3.3'
+
+services:
+  # ---------------------------
+  # MongoDB::Data
+  # Docs: https://hub.docker.com/_/mongo/
+  # ---------------------------
+  mongodb:
+    image: mongo:3
+    container_name: graylog.mongodb
+    restart: always
+    volumes:
+      - ./mongodb:/data/db
+      - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    env_file:
+      - mongo.env
+    networks:
+      - d1_graylog
+    ports:
+      - 9052:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+networks:
+  d1_graylog:
+    driver: bridge
