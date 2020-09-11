@@ -1,0 +1,33 @@
+# --------------------------
+# Ansible Playbook
+# Configure unix daemon services for rsyslog
+# Creates pipeline into Graylog from client endpoints
+# systemd: rsyslog.unit
+# --------------------------
+
+- hosts: all
+  remote_user: <<USER>>
+  become: yes
+
+  tasks:
+    - name: Configure services for ryslog
+      block:
+        - name: Package dependencies
+          yum:
+            state: present
+            name:
+              - rsyslog
+
+        - name: Set Default Config Params
+          copy:
+            src: rsyslog.conf
+            dest: /etc/rsyslog.conf
+            force: true
+
+        - name: Configure System Service
+          systemd:
+            name: rsyslog
+            enabled: yes
+            state: started
+
+# --------------------------
