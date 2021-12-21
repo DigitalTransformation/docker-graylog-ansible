@@ -14,15 +14,15 @@ Read the accompanying [guide](https://ix.quant.one/GraylogAnsible) to this code 
 
 |graylog/graylog|||
 |---|---|---|
-|[![Docker Stars](https://img.shields.io/docker/stars/graylog/graylog.svg)](https://github.com/Graylog2/graylog-docker/) | [![Image Size](https://images.microbadger.com/badges/image/graylog/graylog:3.3.svg)](https://microbadger.com/images/graylog/graylog) | [![Image Version](https://images.microbadger.com/badges/version/graylog/graylog:3.3.svg)](https://microbadger.com/images/graylog/graylog) |
+|[![Docker Stars](https://img.shields.io/docker/stars/graylog/graylog.svg)](https://github.com/Graylog2/graylog-docker/) | [![Image Size](https://images.microbadger.com/badges/image/graylog/graylog:4.2.svg)](https://microbadger.com/images/graylog/graylog) | [![Image Version](https://images.microbadger.com/badges/version/graylog/graylog:4.2.svg)](https://microbadger.com/images/graylog/graylog) |
 
 |_/mongo|||
 |---|---|---|
-|[![Github Stars](https://img.shields.io/github/stars/docker-library/mongo)](https://github.com/docker-library/mongo) | [![Image Size](https://images.microbadger.com/badges/image/mongo:3.svg)](https://microbadger.com/images/mongo:3) | [![Image Version](https://images.microbadger.com/badges/version/mongo:3.svg)](https://microbadger.com/images/mongo:3) |
+|[![Github Stars](https://img.shields.io/github/stars/docker-library/mongo)](https://github.com/docker-library/mongo) | [![Image Size](https://images.microbadger.com/badges/image/mongo:4.2.svg)](https://microbadger.com/images/mongo:4.2) | [![Image Version](https://images.microbadger.com/badges/version/mongo:4.2.svg)](https://microbadger.com/images/mongo:4.2) |
 
 |_/elasticsearch|||
 |---|---|---|
-|[![Docker Stars](https://img.shields.io/docker/stars/_/elasticsearch.svg)](https://github.com/docker-library/elasticsearch) | [![Image Size](https://images.microbadger.com/badges/image/elasticsearch:6.8.1.svg)](https://microbadger.com/images/_/elasticsearch) | [![Image Version](https://images.microbadger.com/badges/version/elasticsearch:6.8.1.svg)](https://microbadger.com/images/_/elasticsearch) |
+|[![Docker Stars](https://img.shields.io/docker/stars/_/elasticsearch.svg)](https://github.com/docker-library/elasticsearch) | [![Image Size](https://images.microbadger.com/badges/image/elasticsearch:7.10.2.svg)](https://microbadger.com/images/_/elasticsearch) | [![Image Version](https://images.microbadger.com/badges/version/elasticsearch:7.10.2.svg)](https://microbadger.com/images/_/elasticsearch) |
 
 |Ansible|
 |---|
@@ -63,13 +63,14 @@ Clone this repository onto the docker host where containers will be built using 
 │   ├── rsyslog.conf
 │   └── target.env
 └── server
-    ├── config.sh
     ├── docker-compose.yaml
-    ├── graylog.conf
-    ├── mongo.env
+    ├── .env.escache
+    ├── .env.graylog
+    ├── .env.mongo
     ├── mongo-init.js
-    ├── rotatekey.sh
-    └── shasum.sh
+    └── scripts
+        ├── rotatekey.sh
+        └── shasum.sh
 
 ```
 
