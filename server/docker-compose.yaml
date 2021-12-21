@@ -12,18 +12,18 @@ services:
   # Docs: https://hub.docker.com/_/mongo/
   # ---------------------------
   mongodb:
-    image: mongo:3
+    image: mongo:4.2
     container_name: graylog.mongodb
     restart: always
     volumes:
       - ./mongodb:/data/db
-      - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     env_file:
-      - mongo.env
+      - .env.mongo
     networks:
       - d1_graylog
     ports:
-      - 9052:27017
+      - 27017
     deploy:
       resources:
         limits:
@@ -35,20 +35,18 @@ services:
   # Docs: https://www.elastic.co/guide/en/elasticsearch/reference/6.x/docker.html
   # ---------------------------
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.10
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
     container_name: graylog.escache
     restart: always
     volumes:
-      - ./escache:/usr/share/elasticsearch/data
+      - escache:/usr/share/elasticsearch/data
+    env_file:
+      - .env.escache
+    expose:
+      - 9200
+      - 9300
     networks:
       - d1_graylog
-    environment:
-      - http.host=0.0.0.0
-      - http.port=9200
-      - transport.tcp.port=9300
-      - transport.host=localhost
-      - network.host=0.0.0.0
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
@@ -64,11 +62,13 @@ services:
   # Docs: https://hub.docker.com/r/graylog/graylog/
   # ---------------------------
   graylog:
-    image: graylog/graylog:3.3
+    image: graylog/graylog:4.2.4-1-jre11
     container_name: graylog.server
     restart: always
     volumes:
       - ./gldata/config:/usr/share/graylog/data/config
+    env_file:
+      - .env.graylog
     networks:
       - d1_graylog
       - default
@@ -78,20 +78,24 @@ services:
     ports:
       # Host:Container
       # Graylog Web Interface and REST API
-      - 9050:9050
+      - 9000
       # Syslog TCP
       - 514:514
       # Syslog UDP
       - 514:514/udp
-      # GELF TCP
-      - 9051:12201
-      # GELF UDP
-      - 9051:12201/udp
+      # INGEST TCP
+      - 12201:12201
+      # INGEST UDP
+      - 12201:12201/udp
     deploy:
       resources:
         limits:
           cpus: '2'
           memory: 4G
+
+volumes:
+  escache:
+  gldata:
 
 networks:
   d1_graylog:
